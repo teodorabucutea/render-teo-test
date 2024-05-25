@@ -3,6 +3,8 @@ const app = express();
 app.use(express.json());
 const cors = require("cors");
 app.use(cors());
+app.use(express.static("dist"));
+const baseUrl = "/api/notes";
 
 let notes = [
   {
@@ -20,6 +22,11 @@ let notes = [
     content: "GET and POST are the most important methods of HTTP protocol",
     important: true,
   },
+  {
+    id: 4,
+    content: "Teo",
+    important: true,
+  },
 ];
 app.get("/", (request, response) => {
   response.send("<h1>Hello World!</h1>");
@@ -28,6 +35,11 @@ app.get("/", (request, response) => {
 app.get("/api/notes", (request, response) => {
   response.json(notes);
 });
+
+const getAll = () => {
+  const request = axios.get(baseUrl);
+  return request.then((response) => response.data);
+};
 
 app.get("/api/notes/:id", (request, response) => {
   const id = Number(request.params.id);
@@ -72,7 +84,7 @@ app.post("/api/notes", (request, response) => {
   response.json(note);
 });
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
