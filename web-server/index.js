@@ -36,11 +36,6 @@ app.get("/api/notes", (request, response) => {
   response.json(notes);
 });
 
-const getAll = () => {
-  const request = axios.get(baseUrl);
-  return request.then((response) => response.data);
-};
-
 app.get("/api/notes/:id", (request, response) => {
   const id = Number(request.params.id);
   const note = notes.find((note) => note.id === id);
